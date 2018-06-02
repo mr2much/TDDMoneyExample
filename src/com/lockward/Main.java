@@ -17,6 +17,8 @@ public class Main {
         testReduceMoneyDifferentCurrency();
         testCurrency();
         testIdentityRate();
+        testSumPlusMoney();
+        testSumTimes();
         System.out.println("Finished testing");
     }
 
@@ -35,8 +37,8 @@ public class Main {
     }
 
     public static void testMixedAddition() {
-        Money fiveBucks = Money.dollar(5);
-        Money tenFrancs = Money.franc(10);
+        Expression fiveBucks = Money.dollar(5);
+        Expression tenFrancs = Money.franc(10);
         Bank bank = new Bank();
         bank.addRate("CHF", "USD", 2);
         Money result = bank.reduce(fiveBucks.plus(tenFrancs), "USD");
@@ -85,5 +87,20 @@ public class Main {
 
     public static void testIdentityRate() {
         assert 1 == new Bank().rate("USD", "USD") : "1 Dollar equals 1 Dollar";
+    }
+
+    public static void testSumPlusMoney() {
+        Expression fiveBucks = Money.dollar(5);
+        Expression tenFrancs = Money.franc(10);
+        Bank bank = new Bank();
+        bank.addRate("CHF", "USD",2);
+        Expression sum = new Sum(fiveBucks, tenFrancs).plus(fiveBucks);
+        Money result = bank.reduce(sum, "USD");
+        assert Money.dollar(15).equals(result) : "Result should be 15 Dollars, got " + result.toString();
+    }
+
+    public static void testSumTimes() {
+        Expression fiveBucks = Money.dollar(5);
+        Expression tenFrancs = Money.franc(10);
     }
 }
