@@ -1,11 +1,20 @@
 package com.lockward;
 
 public abstract class Money {
+    protected String currency;
     protected int amount;
 
-    public static Dollar dollar(int amount) {
-        return new Dollar(amount);
+    public String currency() { return currency; }
+
+    public Money(int amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
     }
+
+    public static Money dollar(int amount) {
+        return new Dollar(amount, "USD");
+    }
+    public static Money franc(int amount) { return new Franc(amount, "CHF"); }
 
     public abstract Money times(int multiplier);
 
