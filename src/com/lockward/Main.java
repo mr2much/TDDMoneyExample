@@ -102,5 +102,10 @@ public class Main {
     public static void testSumTimes() {
         Expression fiveBucks = Money.dollar(5);
         Expression tenFrancs = Money.franc(10);
+        Bank bank = new Bank();
+        bank.addRate("CHF", "USD", 2);
+        Expression sum = new Sum(fiveBucks, tenFrancs).times(2);
+        Money result = bank.reduce(sum, "USD");
+        assert Money.dollar(20).equals(result) : "Result should be 20 Dollars, got " + result.toString();
     }
 }
